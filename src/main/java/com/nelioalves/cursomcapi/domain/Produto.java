@@ -10,110 +10,111 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity(name = "produtos")
-public class Produto implements Serializable{
-	/*
-	 * A serialização significa salvar o estado atual dos objetos em arquivos em formato binário 
-	 * para o seu computador, sendo assim esse estado poderá ser recuperado posteriormente recriando 
-	 * o objeto em memória assim como ele estava no momento da sua serialização.
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	private String nome;
-	private Double preco;
-	
-	//	Do outro lado da associacao ja foram buscados os objetos, agora ele nao busca mais
-	@JsonBackReference
-	@ManyToMany
-	@JoinTable(name = "produto_categoria", 
-			joinColumns = @JoinColumn(name = "produto_id"), 
-			inverseJoinColumns = @JoinColumn(name = "categoria_id")
-	)
-	private List<Categoria> categorias = new ArrayList<>();
+public class Produto implements Serializable {
+    /*
+     * A serialização significa salvar o estado atual dos objetos em arquivos em formato binário
+     * para o seu computador, sendo assim esse estado poderá ser recuperado posteriormente recriando
+     * o objeto em memória assim como ele estava no momento da sua serialização.
+     */
+    private static final long serialVersionUID = 1L;
 
-	public Produto(){
-		
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nome;
+    private Double preco;
 
-	public Produto(Integer id, String nome, Double preco) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.preco = preco;
-	}
+    //	Do outro lado da associacao ja foram buscados os objetos, agora ele nao busca mais
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(name = "produto_categoria",
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<Categoria> categorias = new ArrayList<>();
 
-	public Integer getId() {
-		return id;
-	}
+    public Produto() {
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public Produto(Integer id, String nome, Double preco) {
+        super();
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Double getPreco() {
-		return preco;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setPreco(Double preco) {
-		this.preco = preco;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public List<Categoria> getCategorias() {
-		return categorias;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
-	}
+    public Double getPreco() {
+        return preco;
+    }
 
-	
-	/*
-	 * Compara dois objetos pelo conteúdo, não pelo ponteiro de memória
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
 
-	/*
-	 * Compara dois objetos pelo conteúdo, não pelo ponteiro de memória
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Produto other = (Produto) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
 
-	@Override
-	public String toString() {
-		return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + ", categorias=" + categorias + "]";
-	}
-	
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+
+
+    /*
+     * Compara dois objetos pelo conteúdo, não pelo ponteiro de memória
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    /*
+     * Compara dois objetos pelo conteúdo, não pelo ponteiro de memória
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Produto other = (Produto) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + ", categorias=" + categorias + "]";
+    }
+
 }
