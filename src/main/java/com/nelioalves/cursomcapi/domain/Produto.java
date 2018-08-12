@@ -10,9 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-@Entity
+@Entity(name = "produtos")
 public class Produto implements Serializable{
+	/*
+	 * A serialização significa salvar o estado atual dos objetos em arquivos em formato binário 
+	 * para o seu computador, sendo assim esse estado poderá ser recuperado posteriormente recriando 
+	 * o objeto em memória assim como ele estava no momento da sua serialização.
+	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -21,8 +27,10 @@ public class Produto implements Serializable{
 	private String nome;
 	private Double preco;
 	
+	//	Do outro lado da associacao ja foram buscados os objetos, agora ele nao busca mais
+	@JsonBackReference
 	@ManyToMany
-	@JoinTable(name = "PRODUTO_CATEGORIA", 
+	@JoinTable(name = "produto_categoria", 
 			joinColumns = @JoinColumn(name = "produto_id"), 
 			inverseJoinColumns = @JoinColumn(name = "categoria_id")
 	)
@@ -71,6 +79,10 @@ public class Produto implements Serializable{
 		this.categorias = categorias;
 	}
 
+	
+	/*
+	 * Compara dois objetos pelo conteúdo, não pelo ponteiro de memória
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -79,6 +91,9 @@ public class Produto implements Serializable{
 		return result;
 	}
 
+	/*
+	 * Compara dois objetos pelo conteúdo, não pelo ponteiro de memória
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
