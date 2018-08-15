@@ -2,7 +2,9 @@ package com.nelioalves.cursomcapi.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
+import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity(name = "produtos")
@@ -36,6 +38,9 @@ public class Produto implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
     private List<Categoria> categorias = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> itens = new HashSet<>();
 
     public Produto() {
 
@@ -46,6 +51,19 @@ public class Produto implements Serializable {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
+    }
+    
+    /*
+     * Retorna meus pedidos com base na minha lista de Pedidos associados a ele
+     * 
+     */
+    public List<Pedido> getPedidos() {
+    	List<Pedido> lista = new ArrayList<>();
+    	//	Para cada item de pedido x que existir na minha lista de itens, adiciono o Pedido associado a ele na minha lista
+    	for(ItemPedido x : itens){
+    		lista.add(x.getPedido());
+    	}
+    	return lista;
     }
 
     public Integer getId() {
@@ -79,7 +97,14 @@ public class Produto implements Serializable {
     public void setCategorias(List<Categoria> categorias) {
         this.categorias = categorias;
     }
+    
+    public Set<ItemPedido> getItens() {
+		return itens;
+	}
 
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
 
     /*
      * Compara dois objetos pelo conteúdo, não pelo ponteiro de memória
@@ -112,9 +137,10 @@ public class Produto implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + ", categorias=" + categorias + "]";
-    }
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + ", categorias=" + categorias + ", itens="
+				+ itens + "]";
+	}
 
 }

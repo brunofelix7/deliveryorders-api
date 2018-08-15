@@ -2,16 +2,34 @@ package com.nelioalves.cursomcapi;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Collections;
 
-import com.nelioalves.cursomcapi.domain.*;
-import com.nelioalves.cursomcapi.domain.enums.EstadoPagamento;
-import com.nelioalves.cursomcapi.domain.enums.TipoCliente;
-import com.nelioalves.cursomcapi.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.nelioalves.cursomcapi.domain.Categoria;
+import com.nelioalves.cursomcapi.domain.Cidade;
+import com.nelioalves.cursomcapi.domain.Cliente;
+import com.nelioalves.cursomcapi.domain.Endereco;
+import com.nelioalves.cursomcapi.domain.Estado;
+import com.nelioalves.cursomcapi.domain.ItemPedido;
+import com.nelioalves.cursomcapi.domain.Pagamento;
+import com.nelioalves.cursomcapi.domain.PagamentoComBoleto;
+import com.nelioalves.cursomcapi.domain.PagamentoComCartao;
+import com.nelioalves.cursomcapi.domain.Pedido;
+import com.nelioalves.cursomcapi.domain.Produto;
+import com.nelioalves.cursomcapi.domain.enums.EstadoPagamento;
+import com.nelioalves.cursomcapi.domain.enums.TipoCliente;
+import com.nelioalves.cursomcapi.repositories.CategoriaRepository;
+import com.nelioalves.cursomcapi.repositories.CidadeRepository;
+import com.nelioalves.cursomcapi.repositories.ClienteRepository;
+import com.nelioalves.cursomcapi.repositories.EnderecoRepository;
+import com.nelioalves.cursomcapi.repositories.EstadoRepository;
+import com.nelioalves.cursomcapi.repositories.ItemPedidoRepository;
+import com.nelioalves.cursomcapi.repositories.PagamentoRepository;
+import com.nelioalves.cursomcapi.repositories.PedidoRepository;
+import com.nelioalves.cursomcapi.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class MyApiApplication implements CommandLineRunner {
@@ -24,6 +42,7 @@ public class MyApiApplication implements CommandLineRunner {
     private EnderecoRepository enderecoRepository;
     private PedidoRepository pedidoRepository;
     private PagamentoRepository pagamentoRepository;
+    private ItemPedidoRepository itemPedidoRepository;
 
     @Autowired
     public MyApiApplication(CategoriaRepository categoriaRepository,
@@ -33,7 +52,8 @@ public class MyApiApplication implements CommandLineRunner {
                             ClienteRepository clienteRepository,
                             EnderecoRepository enderecoRepository,
                             PedidoRepository pedidoRepository,
-                            PagamentoRepository pagamentoRepository) {
+                            PagamentoRepository pagamentoRepository,
+                            ItemPedidoRepository itemPedidoRepository) {
         this.categoriaRepository = categoriaRepository;
         this.produtoRepository = produtoRepository;
         this.cidadeRepository = cidadeRepository;
@@ -42,6 +62,7 @@ public class MyApiApplication implements CommandLineRunner {
         this.enderecoRepository = enderecoRepository;
         this.pedidoRepository = pedidoRepository;
         this.pagamentoRepository = pagamentoRepository;
+        this.itemPedidoRepository = itemPedidoRepository;
     }
 
     public static void main(String[] args) {
@@ -95,6 +116,17 @@ public class MyApiApplication implements CommandLineRunner {
         ped2.setPagamento(pagto2);
 
         cli1.setPedidos(Arrays.asList(ped1, ped2));
+        
+        ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+        ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+        ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+        
+        ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+        ped2.getItens().addAll(Arrays.asList(ip3));
+        
+        p1.getItens().addAll(Arrays.asList(ip1));
+        p2.getItens().addAll(Arrays.asList(ip3));
+        p3.getItens().addAll(Arrays.asList(ip2));
 
         categoriaRepository.save(Arrays.asList(cat1, cat2));
         produtoRepository.save(Arrays.asList(p1, p2, p3));
@@ -104,6 +136,7 @@ public class MyApiApplication implements CommandLineRunner {
         enderecoRepository.save(Arrays.asList(e1, e2));
         pedidoRepository.save(Arrays.asList(ped1, ped2));
         pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
-
+        itemPedidoRepository.save(Arrays.asList(ip1, ip2, ip3));
+        
     }
 }
