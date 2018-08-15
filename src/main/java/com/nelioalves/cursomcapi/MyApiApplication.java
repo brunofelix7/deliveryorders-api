@@ -1,9 +1,11 @@
 package com.nelioalves.cursomcapi;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 
 import com.nelioalves.cursomcapi.domain.*;
+import com.nelioalves.cursomcapi.domain.enums.EstadoPagamento;
 import com.nelioalves.cursomcapi.domain.enums.TipoCliente;
 import com.nelioalves.cursomcapi.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +22,26 @@ public class MyApiApplication implements CommandLineRunner {
     private EstadoRepository estadoRepository;
     private ClienteRepository clienteRepository;
     private EnderecoRepository enderecoRepository;
+    private PedidoRepository pedidoRepository;
+    private PagamentoRepository pagamentoRepository;
 
     @Autowired
-    public MyApiApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository, EstadoRepository estadoRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository) {
+    public MyApiApplication(CategoriaRepository categoriaRepository,
+                            ProdutoRepository produtoRepository,
+                            CidadeRepository cidadeRepository,
+                            EstadoRepository estadoRepository,
+                            ClienteRepository clienteRepository,
+                            EnderecoRepository enderecoRepository,
+                            PedidoRepository pedidoRepository,
+                            PagamentoRepository pagamentoRepository) {
         this.categoriaRepository = categoriaRepository;
         this.produtoRepository = produtoRepository;
         this.cidadeRepository = cidadeRepository;
         this.estadoRepository = estadoRepository;
         this.clienteRepository = clienteRepository;
         this.enderecoRepository = enderecoRepository;
+        this.pedidoRepository = pedidoRepository;
+        this.pagamentoRepository = pagamentoRepository;
     }
 
     public static void main(String[] args) {
@@ -71,12 +84,26 @@ public class MyApiApplication implements CommandLineRunner {
 
         cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+        Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+
+        Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+        ped1.setPagamento(pagto1);
+
+        Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+        ped2.setPagamento(pagto2);
+
+        cli1.setPedidos(Arrays.asList(ped1, ped2));
+
         categoriaRepository.save(Arrays.asList(cat1, cat2));
         produtoRepository.save(Arrays.asList(p1, p2, p3));
         estadoRepository.save(Arrays.asList(est1, est2));
-        cidadeRepository.save(Arrays.asList(c1, c2, c3));
+        cidadeRepository.save(Arrays.asList(c1, c2, c3 ));
         clienteRepository.save(cli1);
         enderecoRepository.save(Arrays.asList(e1, e2));
+        pedidoRepository.save(Arrays.asList(ped1, ped2));
+        pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
 
     }
 }
