@@ -1,8 +1,8 @@
 package com.nelioalves.cursomcapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nelioalves.cursomcapi.domain.enums.TipoCliente;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "telefones")
     private Set<String> telefones = new HashSet<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 

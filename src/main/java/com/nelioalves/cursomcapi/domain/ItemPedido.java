@@ -4,10 +4,14 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	//	Nao vai ser serializado. No pedido e no produto eu ja retorno um JSON com os dados
+	@JsonIgnore
 	@EmbeddedId
 	private ItemPedidoPK id = new ItemPedidoPK();
 	private Double desconto;
@@ -63,6 +67,7 @@ public class ItemPedido implements Serializable{
 	 * Para ter acesso direto aos meus pedidos e produtos, 
 	 * caso contrario teriamos que acessar primeiro o id para poder retornar os dados
 	 */
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
