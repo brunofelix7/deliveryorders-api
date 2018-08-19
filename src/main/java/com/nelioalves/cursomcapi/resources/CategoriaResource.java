@@ -7,6 +7,7 @@ import com.nelioalves.cursomcapi.domain.Categoria;
 import com.nelioalves.cursomcapi.services.CategoriaService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/categorias")
@@ -20,9 +21,15 @@ public class CategoriaResource {
 	}
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<Categoria> find(@PathVariable("id") Integer id){
+	public ResponseEntity<Categoria> find(@PathVariable Integer id){
 		Categoria categoria = service.find(id);
 		return ResponseEntity.ok().body(categoria);
+	}
+
+	@GetMapping
+	public ResponseEntity<List<Categoria>> list(){
+		List<Categoria> categorias = service.findAll();
+		return ResponseEntity.ok().body(categorias);
 	}
 
 	@PostMapping
@@ -36,6 +43,12 @@ public class CategoriaResource {
 	public ResponseEntity<?> update(@RequestBody Categoria categoria, @PathVariable("id") Integer id){
 		categoria.setId(id);
 		categoria = service.update(categoria);
+		return ResponseEntity.noContent().build();
+	}
+
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<?> delete(@PathVariable Integer id){
+		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
