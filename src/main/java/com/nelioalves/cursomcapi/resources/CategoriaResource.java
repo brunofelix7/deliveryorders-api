@@ -1,5 +1,6 @@
 package com.nelioalves.cursomcapi.resources;
 
+import com.nelioalves.cursomcapi.dto.CategoriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import com.nelioalves.cursomcapi.services.CategoriaService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/categorias")
@@ -27,14 +29,17 @@ public class CategoriaResource {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Categoria>> list(){
-		List<Categoria> categorias = service.findAll();
+	public ResponseEntity<List<CategoriaDTO>> list(){
+		//	Converte a lista de Domain em uma lista DTO
+		//	List<CategoriaDTO> categorias = service.findAll().stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		List<CategoriaDTO> categorias = service.findAll().stream().map(CategoriaDTO::new).collect(Collectors.toList());
 		return ResponseEntity.ok().body(categorias);
 	}
 
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody Categoria categoria){
 		categoria = service.save(categoria);
+		//	Retorna a nova URI criada com o id
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

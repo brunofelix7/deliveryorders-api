@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.nelioalves.cursomcapi.domain.Categoria;
 import com.nelioalves.cursomcapi.repositories.CategoriaRepository;
 import com.nelioalves.cursomcapi.services.exceptions.ObjectNotFoundException;
-
 import java.util.List;
 
 @Service
