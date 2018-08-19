@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import com.nelioalves.cursomcapi.domain.Categoria;
 import com.nelioalves.cursomcapi.services.CategoriaService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 
 @RestController
@@ -21,7 +20,7 @@ public class CategoriaResource {
 	}
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<?> find(@PathVariable("id") Integer id){
+	public ResponseEntity<Categoria> find(@PathVariable("id") Integer id){
 		Categoria categoria = service.find(id);
 		return ResponseEntity.ok().body(categoria);
 	}
@@ -31,6 +30,13 @@ public class CategoriaResource {
 		categoria = service.save(categoria);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+
+	@PutMapping(path = "/{id}")
+	public ResponseEntity<?> update(@RequestBody Categoria categoria, @PathVariable("id") Integer id){
+		categoria.setId(id);
+		categoria = service.update(categoria);
+		return ResponseEntity.noContent().build();
 	}
 
 }
