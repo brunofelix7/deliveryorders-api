@@ -1,6 +1,8 @@
 package com.nelioalves.cursomcapi.resources.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Classe padrao de retorno do meu resource caso ocorra alguma execao
@@ -10,13 +12,15 @@ public class ResourceError implements Serializable {
 	
 	private Integer status;
 	private String message;
-	private Long timeStamp;
+
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private Date timeStamp;
 	
 	public ResourceError() {
 		
 	}
 	
-	public ResourceError(Integer status, String message, Long timeStamp) {
+	public ResourceError(Integer status, String message, Date timeStamp) {
 		super();
 		this.status = status;
 		this.message = message;
@@ -39,11 +43,11 @@ public class ResourceError implements Serializable {
 		this.message = message;
 	}
 	
-	public Long getTimeStamp() {
+	public Date getTimeStamp() {
 		return timeStamp;
 	}
 	
-	public void setTimeStamp(Long timeStamp) {
+	public void setTimeStamp(Date timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 

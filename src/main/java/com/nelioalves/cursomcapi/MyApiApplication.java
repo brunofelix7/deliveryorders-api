@@ -2,12 +2,10 @@ package com.nelioalves.cursomcapi;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import com.nelioalves.cursomcapi.domain.Categoria;
 import com.nelioalves.cursomcapi.domain.Cidade;
 import com.nelioalves.cursomcapi.domain.Cliente;

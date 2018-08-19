@@ -1,7 +1,5 @@
 package com.nelioalves.cursomcapi.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +18,6 @@ public class Cidade implements Serializable {
 
     private String nome;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;

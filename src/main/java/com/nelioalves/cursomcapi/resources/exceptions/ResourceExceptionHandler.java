@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.nelioalves.cursomcapi.services.exceptions.ObjectNotFoundException;
 
+import java.util.Date;
+
 /**
  * Classe que vai filtrar as execoes lancadas nos meus recursos
  */
@@ -18,7 +20,7 @@ public class ResourceExceptionHandler {
 	 */
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<ResourceError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request){
-		ResourceError error = new ResourceError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
+		ResourceError error = new ResourceError(HttpStatus.NOT_FOUND.value(), e.getMessage(), new Date(System.currentTimeMillis()));
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 	

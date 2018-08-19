@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "produtos")
@@ -32,7 +31,7 @@ public class Produto implements Serializable {
     private Double preco;
 
     //	Do outro lado da associacao ja foram buscados os objetos, agora ele nao busca mais
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "produto_categoria",
             joinColumns = @JoinColumn(name = "produto_id"),

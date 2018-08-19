@@ -13,9 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity(name = "pedidos")
 public class Pedido implements Serializable {
@@ -29,7 +27,6 @@ public class Pedido implements Serializable {
     private Date instante;
 
     //  Necessario para salvar ou excluir as duas entidades (pedido e pagamento)
-    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
 
@@ -39,7 +36,6 @@ public class Pedido implements Serializable {
      * vamos permitri a serializacao do cliente de um pedido. 
      * Porem nao vamos permitir que na classe Cliente os pedidos sejam serializados
      */
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

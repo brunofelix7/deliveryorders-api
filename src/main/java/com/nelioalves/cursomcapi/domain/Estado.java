@@ -1,7 +1,6 @@
 package com.nelioalves.cursomcapi.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class Estado implements Serializable {
 
     private String nome;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "estado")
     private List<Cidade> cidades = new ArrayList<>();
 
