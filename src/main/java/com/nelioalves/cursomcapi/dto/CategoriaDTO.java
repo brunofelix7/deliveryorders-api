@@ -1,7 +1,6 @@
 package com.nelioalves.cursomcapi.dto;
 
 import com.nelioalves.cursomcapi.domain.Categoria;
-
 import java.io.Serializable;
 
 /**
