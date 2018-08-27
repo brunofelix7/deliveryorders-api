@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.nelioalves.cursomcapi.domain.Categoria;
 import com.nelioalves.cursomcapi.services.CategoriaService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +25,29 @@ public class CategoriaResource {
 		this.service = service;
 	}
 
+	@PostMapping
+	public ResponseEntity<?> create(@Valid @RequestBody CategoriaDTO categoriaDTO){
+		Categoria categoria = service.fromDTO(categoriaDTO);
+		categoria = service.save(categoria);
+		//	Retorna a nova URI criada com o id
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+
+	@PutMapping(path = "/{id}")
+	public ResponseEntity<?> update(@Valid @RequestBody CategoriaDTO categoriaDTO, @PathVariable("id") Integer id){
+		Categoria categoria = service.fromDTO(categoriaDTO);
+		categoria.setId(id);
+		categoria = service.update(categoria);
+		return ResponseEntity.noContent().build();
+	}
+
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<?> delete(@PathVariable Integer id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Categoria> find(@PathVariable Integer id){
 		Categoria categoria = service.find(id);
@@ -35,27 +60,6 @@ public class CategoriaResource {
 		//	List<CategoriaDTO> categorias = service.findAll().stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 		List<CategoriaDTO> categorias = service.findAll().stream().map(CategoriaDTO::new).collect(Collectors.toList());
 		return ResponseEntity.ok().body(categorias);
-	}
-
-	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Categoria categoria){
-		categoria = service.save(categoria);
-		//	Retorna a nova URI criada com o id
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
-		return ResponseEntity.created(uri).build();
-	}
-
-	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> update(@RequestBody Categoria categoria, @PathVariable("id") Integer id){
-		categoria.setId(id);
-		categoria = service.update(categoria);
-		return ResponseEntity.noContent().build();
-	}
-
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> delete(@PathVariable Integer id){
-		service.delete(id);
-		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping(path = "/page")

@@ -1,5 +1,6 @@
 package com.nelioalves.cursomcapi.services;
 
+import com.nelioalves.cursomcapi.dto.CategoriaDTO;
 import com.nelioalves.cursomcapi.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -53,9 +54,19 @@ public class CategoriaService {
         }
     }
 
+    /**
+     * Retorna as categorias em paginação
+     */
     public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
         PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
         return repository.findAll(pageRequest);
+    }
+
+    /**
+     * Converte uma CategoriaDTO em Categoria
+     */
+    public Categoria fromDTO(CategoriaDTO objDto) {
+        return new Categoria(objDto.getId(), objDto.getNome());
     }
 
 }
