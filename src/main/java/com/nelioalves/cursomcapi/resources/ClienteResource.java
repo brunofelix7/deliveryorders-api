@@ -44,8 +44,9 @@ public class ClienteResource {
 	public ResponseEntity<?> update(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable("id") Integer id){
 		Cliente cliente = service.fromDTO(clienteDTO);
 		cliente.setId(id);
+		clienteDTO.setId(id);
 		cliente = service.update(cliente);
-		return ResponseEntity.ok().body(cliente);
+		return ResponseEntity.ok().body(clienteDTO);
 	}
 
 	@DeleteMapping(path = "/{id}")

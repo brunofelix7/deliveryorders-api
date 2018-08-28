@@ -45,8 +45,9 @@ public class CategoriaResource {
 	public ResponseEntity<?> update(@Valid @RequestBody CategoriaDTO categoriaDTO, @PathVariable("id") Integer id){
 		Categoria categoria = service.fromDTO(categoriaDTO);
 		categoria.setId(id);
+		categoriaDTO.setId(id);
 		categoria = service.update(categoria);
-		return ResponseEntity.ok().body(categoria);
+		return ResponseEntity.ok().body(categoriaDTO);
 	}
 
 	@DeleteMapping(path = "/{id}")
