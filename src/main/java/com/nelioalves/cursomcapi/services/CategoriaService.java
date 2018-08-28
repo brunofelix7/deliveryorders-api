@@ -23,18 +23,6 @@ public class CategoriaService {
         this.repository = repository;
     }
 
-    public Categoria find(Integer id) {
-        Categoria obj = repository.findOne(id);
-        if (obj == null) {
-            throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName());
-        }
-        return obj;
-    }
-
-    public List<Categoria> findAll() {
-        return repository.findAll();
-    }
-
     public Categoria save(Categoria obj) {
         obj.setId(null);
         return repository.save(obj);
@@ -50,8 +38,20 @@ public class CategoriaService {
         try {
             repository.delete(id);
         } catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possível excluir uma categoria que possuí produtos!");
+			throw new DataIntegrityException("Não é possível excluir porque existem entidades relacionadas!");
         }
+    }
+    
+    public Categoria find(Integer id) {
+        Categoria obj = repository.findOne(id);
+        if (obj == null) {
+            throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName());
+        }
+        return obj;
+    }
+
+    public List<Categoria> findAll() {
+        return repository.findAll();
     }
 
     /**

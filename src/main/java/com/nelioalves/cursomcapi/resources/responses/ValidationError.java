@@ -1,4 +1,4 @@
-package com.nelioalves.cursomcapi.resources.exceptions;
+package com.nelioalves.cursomcapi.resources.responses;
 
 import java.util.ArrayList;
 import java.util.Date;

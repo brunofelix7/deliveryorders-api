@@ -2,6 +2,8 @@ package com.nelioalves.cursomcapi.resources.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.nelioalves.cursomcapi.resources.responses.ResourceError;
+import com.nelioalves.cursomcapi.resources.responses.ValidationError;
 import com.nelioalves.cursomcapi.services.exceptions.DataIntegrityException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,6 @@ import java.util.Date;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-    /* Metodo que vai tratar excecoes desse tipo */
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<ResourceError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
         ResourceError error = new ResourceError(HttpStatus.NOT_FOUND.value(), e.getMessage(), new Date(System.currentTimeMillis()));
@@ -31,7 +32,6 @@ public class ResourceExceptionHandler {
         ResourceError error = new ResourceError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), new Date(System.currentTimeMillis()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResourceError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
