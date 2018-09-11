@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ValidationError extends ResourceError {
 
-    private List<FieldMessage> errors = new ArrayList<>();
+	private List<FieldMessage> errors = new ArrayList<>();
 
     public ValidationError(Integer status, String message, Date timeStamp) {
         super(status, message, timeStamp);

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ClienteService {
@@ -19,6 +20,7 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repository;
 	
+	@Transactional
 	public Cliente save(Cliente obj) {
         obj.setId(null);
         return repository.save(obj);
