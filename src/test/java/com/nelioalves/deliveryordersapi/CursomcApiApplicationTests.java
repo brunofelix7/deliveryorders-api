@@ -1,4 +1,4 @@
-package com.nelioalves.cursomcapi;
+package com.nelioalves.deliveryordersapi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
